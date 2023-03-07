@@ -18,6 +18,13 @@ menu = {
 customer = {}
 chosenMenu = {}
 
+def addressPrint():
+    print(firstName + ' ' + lastName)
+    print(streetNumber + ' ' + streetName + ' ' + ' ' + apartmentNum)      
+    print(city + ', ' + province + ', ' + postalCode)        
+    print(specInstructions)
+    print("")
+
 def formatBill(data, headers, size) :               #Creating a function that will format the reciept at the end
     lines = ""
     line = ""
@@ -143,29 +150,25 @@ student = input("Are you a student? [Y/N]: ").strip().lower()               #Ask
 while not(student == 'y' or student == 'n'):
     student = input("Please enter a valid answer: ").strip().lower()
 
-delivery = input("Would you like Delivery or Pick-up?: \n[1 - Delivery]\n[2 - Pick-up]\n")
-while not(delivery == '1' or delivery == '2'):
+delivery = float(input("Would you like Delivery or Pick-up?: \n[1 - Delivery]\n[2 - Pick-up]\n"))
+while not(delivery == 1 or delivery == 2):
     delivery = input("Please enter a valid answer: ")
 
 deliveryFee = 5
-
+if totalPrice > 30:
+    deliveryFee = 0
+    
 if student == "y":
-    if delivery = 'n':
+    if delivery == 2:
         endPrice = round(tax + studentDis, 3)
-        print(firstName + ' ' + lastName)
-        print(streetNumber + ' ' + streetName + ' ' + ' ' + apartmentNum)       #If the user says 'yes' to being a student, it will present a reciept adding in the discount
-        print(city + ', ' + province + ', ' + postalCode)
-        print(specInstructions)
-        print("")
+        addressPrint()
         data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['10% Student Savings', '', '', str(studentDif)], ['', '', 'Sub Total', str(studentDis)], ['', '', 'Tax (13%)', str(tax)], ['', '', 'Total', str(endPrice)]
         print(formatBill(data, headers, 30))
+    if delivery == 1:
+        endPrice = round(tax + studentDis + deliveryFee, 3)
     
 if student == "n":
     endPrice = round(tax + grandTotal, 3)
-    print(firstName + ' ' + lastName)
-    print(streetNumber + ' ' + streetName + ' ' + ' ' + apartmentNum)           #If the user says 'no' to being a student, the program will present a reciept without the student discount.
-    print(city + ', ' + province + ', ' + postalCode)
-    print(specInstructions)
-    print("")
+    addressPrint()
     data = [dinner, str(quantity), '$' + str(price), '$' + str(grandTotal)], ['', '', 'Sub Total', str(grandTotal)], ['', '', 'Tax (13%)', str(tax)], ['', '', 'Total', '$' + str(endPrice)]
     print(formatBill(data, headers, 25))
