@@ -15,7 +15,7 @@ menu = {
     5: {"food item": "Tara's Mushroom Soup", "price": 7},
     6: {"food item": "Mark's Spaghetti", "price": 9}
 }
-
+customer = {}
 chosenMenu = {}
 
 def formatBill(data, headers, size) :               #Creating a function that will format the reciept at the end
@@ -62,11 +62,10 @@ def getDinnerOrder():                                                           
         
     quantity = float(input("How many do you want?: "))
     
-    chosenMenu.update({menu[dinner]["food item"]: menu[dinner]['price'], "Quantity": quantity}) 
+    chosenMenu.update({'a': menu[dinner]["food item"], 'b': menu[dinner]['price'], "Quantity": quantity}) 
     
-    for items in chosenMenu.items():
-        for item, count in items:
-            totalPrice = float(chosenMenu[count]) * quantity
+    
+    totalPrice = float(chosenMenu['b']) * quantity
     
     print(totalPrice)
     
@@ -81,7 +80,7 @@ def getDinnerOrder():                                                           
     grandTotal = totalPrice - disPrice
     
     print('                           ')
-    print(chosenMenu['food item'] + " * " + str(quantity))                   #Printing the reciept to the user and asking for confirmation
+    print(chosenMenu['a'] + " * " + str(quantity))                   #Printing the reciept to the user and asking for confirmation
     print('                             ')
     print('----------------------------')
     print('                                  ')
@@ -100,9 +99,10 @@ answer = input("WELCOME TO ARNOLD'S AMAZING EATS!! ARE YOU HERE TO ORDER FOOD OR
 if answer == "n":
     exit() 
 
-firstName = input("Please enter your first name: ")
+firstName = input("Please enter your first name: ").capitalize().strip()
+customer.update({'firstname': firstName})
 
-lastName = input("Please enter your last name: ")
+lastName = input("Please enter your last name: ").capitalize()
 
 streetNumber = input("Please enter your street number: ")                                   #Getting the user's information
 
