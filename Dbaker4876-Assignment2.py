@@ -102,23 +102,31 @@ if answer == "n":
 firstName = input("Please enter your first name: ").capitalize().strip()
 customer.update({'firstname': firstName})
 
-lastName = input("Please enter your last name: ").capitalize()
+lastName = input("Please enter your last name: ").capitalize().strip()
+customer.update({'lastname': lastName})
 
-streetNumber = input("Please enter your street number: ")                                   #Getting the user's information
+streetNumber = input("Please enter your street number: ").strip()                                   #Getting the user's information
+customer.update({'streetnumber': streetNumber})
 
-streetName = input("Please enter your street name: ")
+streetName = input("Please enter your street name: ").capitalize().strip()
+customer.update({'streetname': streetName})
 
-apartmentNum = input("Please enter your unit # if applicable: ")
+apartmentNum = input("Please enter your unit # if applicable: ").strip()
+customer.update({'unitnumber': apartmentNum})
 
-city = input("Please enter your city: ")
+city = input("Please enter your city: ").strip().capitalize()
+customer.update({'city': city})
 
-province = input("Please enter your province: ")
+province = input("Please enter your province: ").capitalize().strip()
+customer.update({'province': province})
 
-postalCode = input("Please enter your postal code: ")
-
-specInstructions = input("Please enter any special instructions: ")
+postalCode = input("Please enter your postal code: ").strip()
+customer.update({'postalcode': postalCode})
 
 phoneNum = input("Please enter your phone number: ")
+customer.update({'phonenumber': phoneNum})
+
+specInstructions = input("Please enter any special instructions: ")
 
 while getDinnerOrder():                                                                 #Calling the function to determine their order
     if True:
@@ -132,6 +140,9 @@ tax = totalPrice * 0.13
 headers = ["Order", "Item Amount", "Item Price", "Total"]               #Setting the headers for the formatBill function
 
 student = input("Are you a student? [Y/N]: ").strip().lower()               #Asking if the user is a student or not
+
+delivery = input("Would you like Delivery or Pick-up?: \n[1 - Delivery]\n[2 - Pick-up]\n")
+
 if student == "y":
     endPrice = round(tax + studentDis, 3)
     print(firstName + ' ' + lastName)
