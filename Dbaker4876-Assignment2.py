@@ -140,8 +140,12 @@ tax = totalPrice * 0.13
 headers = ["Order", "Item Amount", "Item Price", "Total"]               #Setting the headers for the formatBill function
 
 student = input("Are you a student? [Y/N]: ").strip().lower()               #Asking if the user is a student or not
+while not(student == 'y' or student == 'n'):
+    student = input("Please enter a valid answer: ").strip().lower()
 
 delivery = input("Would you like Delivery or Pick-up?: \n[1 - Delivery]\n[2 - Pick-up]\n")
+while not(delivery == '1' or delivery == '2'):
+    delivery = input("Please enter a valid answer: ")
 
 if student == "y":
     endPrice = round(tax + studentDis, 3)
