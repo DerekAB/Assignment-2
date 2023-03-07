@@ -147,15 +147,18 @@ delivery = input("Would you like Delivery or Pick-up?: \n[1 - Delivery]\n[2 - Pi
 while not(delivery == '1' or delivery == '2'):
     delivery = input("Please enter a valid answer: ")
 
+deliveryFee = 5
+
 if student == "y":
-    endPrice = round(tax + studentDis, 3)
-    print(firstName + ' ' + lastName)
-    print(streetNumber + ' ' + streetName + ' ' + ' ' + apartmentNum)       #If the user says 'yes' to being a student, it will present a reciept adding in the discount
-    print(city + ', ' + province + ', ' + postalCode)
-    print(specInstructions)
-    print("")
-    data = [dinner, str(quantity), '$' + str(price), '$' + str(grandTotal)], ['10% Student Savings', '', '', str(studentDif)], ['', '', 'Sub Total', str(studentDis)], ['', '', 'Tax (13%)', str(tax)], ['', '', 'Total', str(endPrice)]
-    print(formatBill(data, headers, 30))
+    if delivery = 'n':
+        endPrice = round(tax + studentDis, 3)
+        print(firstName + ' ' + lastName)
+        print(streetNumber + ' ' + streetName + ' ' + ' ' + apartmentNum)       #If the user says 'yes' to being a student, it will present a reciept adding in the discount
+        print(city + ', ' + province + ', ' + postalCode)
+        print(specInstructions)
+        print("")
+        data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['10% Student Savings', '', '', str(studentDif)], ['', '', 'Sub Total', str(studentDis)], ['', '', 'Tax (13%)', str(tax)], ['', '', 'Total', str(endPrice)]
+        print(formatBill(data, headers, 30))
     
 if student == "n":
     endPrice = round(tax + grandTotal, 3)
