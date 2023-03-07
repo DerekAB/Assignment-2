@@ -18,12 +18,7 @@ menu = {
 customer = {}
 chosenMenu = {}
 
-def addressPrint():
-    print(firstName + ' ' + lastName)
-    print(streetNumber + ' ' + streetName + ' ' + ' ' + apartmentNum)      
-    print(city + ', ' + province + ', ' + postalCode)        
-    print(specInstructions)
-    print("")
+
 
 def formatBill(data, headers, size) :               #Creating a function that will format the reciept at the end
     lines = ""
@@ -139,6 +134,14 @@ while getDinnerOrder():                                                         
     if True:
         print("Please reenter your order.")
         
+def addressPrint():
+    print(firstName + ' ' + lastName)
+    print(streetNumber + ' ' + streetName + ' ' + ' ' + apartmentNum)      
+    print(city + ', ' + province + ', ' + postalCode)        
+    print(specInstructions)
+    print("")      
+    return
+      
 studentDiscount = round(grandTotal * 0.1, 2) 
 studentDif = round(grandTotal - (grandTotal + studentDiscount), 3)                      #Calculating the discounts if they say 'yes' to be a student
 studentDis = round(grandTotal - studentDiscount, 2)
@@ -166,9 +169,16 @@ if student == "y":
         print(formatBill(data, headers, 30))
     if delivery == 1:
         endPrice = round(tax + studentDis + deliveryFee, 3)
+        data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['10% Student Savings', '', '', str(studentDif)], ['', '', 'Sub Total', str(studentDis)], ['', '', 'Tax (13%)', str(tax)], ['', '', 'Delivery', str(deliveryFee)], ['', '', 'Total', str(endPrice)]
+
     
 if student == "n":
-    endPrice = round(tax + grandTotal, 3)
-    addressPrint()
-    data = [dinner, str(quantity), '$' + str(price), '$' + str(grandTotal)], ['', '', 'Sub Total', str(grandTotal)], ['', '', 'Tax (13%)', str(tax)], ['', '', 'Total', '$' + str(endPrice)]
-    print(formatBill(data, headers, 25))
+    if delivery == 2:
+        endPrice = round(tax + grandTotal, 3)
+        addressPrint()
+        data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['', '', 'Sub Total', str(grandTotal)], ['', '', 'Tax (13%)', str(tax)], ['', '', 'Total', '$' + str(endPrice)]
+        print(formatBill(data, headers, 25))
+    if delivery == 1:
+        endPrice = round(tax + grandTotal + deliveryFee, 3)
+        addressPrint()
+        data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['', '', 'Sub Total', str(grandTotal)], ['', '', 'Tax (13%)', str(tax)], ['', '', 'Delivery', '$' + str(deliveryFee)], ['', '', 'Total', '$' + str(endPrice)]
