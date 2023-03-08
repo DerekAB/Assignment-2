@@ -51,7 +51,7 @@ def formatBill(data, headers, size) :               #Creating a function that wi
     return lines
 
 def getDinnerOrder():                                                                                           #Function is for asking the user which dinner they want and then
-    global dinner, totalPrice, tax, grandTotal, quantity  
+    global dinner, totalPrice, tax, grandTotal, quantity, disPrice 
     
     for item, x in menu.items():
         print("\nMenu Item: {}".format(item))
@@ -66,19 +66,16 @@ def getDinnerOrder():                                                           
     
     chosenMenu.update({'a': menu[dinner]["food item"], 'b': menu[dinner]['price'], "Quantity": quantity}) 
     
-    
     totalPrice = float(chosenMenu['b']) * quantity
     
-    print(totalPrice)
-    
-    if totalPrice == range(100 - 500):                      #Price calculations based on the total amount of the bill and adding the discounts
+    if totalPrice in range(100, 500):                      #Price calculations based on the total amount of the bill and adding the discounts
         disPrice = round(totalPrice * 0.2, 2)
     if totalPrice > 500:
         disPrice = round(totalPrice * 0.25, 2)
     if totalPrice < 100:
         disPrice = round(totalPrice * 0.15, 2)
     
-    savings = totalPrice - (totalPrice + disPrice) 
+    savings = totalPrice - (totalPrice + disPrice)
     grandTotal = totalPrice - disPrice
     
     print('                           ')
