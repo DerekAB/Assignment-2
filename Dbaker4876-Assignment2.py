@@ -15,9 +15,11 @@ menu = {
     5: {"food item": "Tara's Mushroom Soup", "price": 7},
     6: {"food item": "Mark's Spaghetti", "price": 9}
 }
+#the restaurant menu is in a dictionary for easy access
+
 customer = {}
 chosenMenu = {}
-
+#defining the dictionaries for later use
 
 
 def formatBill(data, headers, size) :               #Creating a function that will format the reciept at the end
@@ -49,6 +51,7 @@ def formatBill(data, headers, size) :               #Creating a function that wi
         lines += line + "\n"
         
     return lines
+#function to format the reciept at the end of the order
 
 def getDinnerOrder():                                                                                           #Function is for asking the user which dinner they want and then
     global dinner, totalPrice, tax, grandTotal, quantity, disPrice 
@@ -57,6 +60,7 @@ def getDinnerOrder():                                                           
         print("\nMenu Item: {}".format(item))
         for key in x:
             print("{0}: {1}".format(key, x[key]))
+#printing out the menu for easy reading
         
     dinner = float(input("Please enter the number of the menu item you want: "))
     while dinner not in range(1, 7):
@@ -74,9 +78,11 @@ def getDinnerOrder():                                                           
         disPrice = round(totalPrice * 0.25, 2)
     if totalPrice < 100:
         disPrice = round(totalPrice * 0.15, 2)
+#defining the discounted price of the order
     
     savings = totalPrice - (totalPrice + disPrice)
     grandTotal = totalPrice - disPrice
+#calculating the total price of the order
     
     print('                           ')
     print(chosenMenu['a'] + " * " + str(quantity))                   #Printing the reciept to the user and asking for confirmation
@@ -86,20 +92,24 @@ def getDinnerOrder():                                                           
     print("Total $" + str(totalPrice))
     print("Discount $" + str(savings))
     print("Grand total $" + str(grandTotal))
+#printing the confirmation reciept to the customer
     
     confirm = input("Is this what you want? [Y/N]: ")
     if confirm == "n":
         return True
     if confirm == "y":
         return False
+#function that collects the order and quantity of the order and then calculates the total cost of the order before taxes
     
 answer = input("WELCOME TO ARNOLD'S AMAZING EATS!! ARE YOU HERE TO ORDER FOOD OR WHAT? [Y/N]: ").strip().lower()  #This is the first thing the user will see, and asks if they want to order some food
 
 while not(answer == "n" or answer == 'y'):
     answer = input('Please enter a valid answer: ')
+#loop to get valid answer
 
 if answer == 'n':
     exit()
+#the program will close if they do not want to order food
     
 def customerInfo():
     global specInstructions
@@ -130,7 +140,7 @@ def customerInfo():
     phoneNum = input("Please enter your phone number: ")
     customer.update({'phonenumber': phoneNum})
 
-    specInstructions = input("Please enter any special instructions: ") 
+    specInstructions = input("Please enter any special instructions: ")
     
     confirm = input("Is this information correct? [Y/N]: ").strip().lower()
     while not(confirm == 'y' or confirm == 'n'):
@@ -140,14 +150,17 @@ def customerInfo():
         return False
     if confirm == 'n':
         return True
+#function that collects the customer info and asks them to confirm their information. It will loop if they do not confirm 
 
 while customerInfo():
     if True:
         print("Please reenter your information.")
+#calling the function to gather customer information
 
-while getDinnerOrder():                                                                 #Calling the function to determine their order
+while getDinnerOrder():                                                                 
     if True:
         print("Please reenter your order.")
+#Calling the function to determine their order
         
 def addressPrint():
     print('')
@@ -155,26 +168,32 @@ def addressPrint():
     print(customer['streetnumber'] + ' ' + customer['streetname'] + ' ' + ' ' + customer['unitnumber'])      
     print(customer['city'] + ', ' + customer['province'] + ', ' + customer['postalcode'])
     print(customer['phonenumber'])        
-    print(specInstructions)     
+    print(specInstructions)   
+#function to print out the address given by the customer  
       
 studentDiscount = round(grandTotal * 0.1, 2) 
-studentDif = round(grandTotal - (grandTotal + studentDiscount), 3)                      #Calculating the discounts if they say 'yes' to be a student
+studentDif = round(grandTotal - (grandTotal + studentDiscount), 3)                      
 studentDis = round(grandTotal - studentDiscount, 2)
 tax = totalPrice * 0.13
+#Calculating the discounts if they say 'yes' to be a student
 
-headers = ["Order", "Item Amount", "Item Price", "Total"]               #Setting the headers for the formatBill function
-
-student = input("Are you a student? [Y/N]: ").strip().lower()               #Asking if the user is a student or not
+headers = ["Order", "Item Amount", "Item Price", "Total"]              
+ #Setting the headers for the formatBill function
+ 
+student = input("Are you a student? [Y/N]: ").strip().lower()               
 while not(student == 'y' or student == 'n'):
     student = input("Please enter a valid answer: ").strip().lower()
+#Asking if the user is a student or not
 
 delivery = float(input("Would you like Delivery or Pick-up?: \n[1 - Delivery]\n[2 - Pick-up]\n"))
 while not(delivery == 1 or delivery == 2):
     delivery = input("Please enter a valid answer: ")
+#asking if the customer wants delivery or pick-up
 
 deliveryFee = 5
 if totalPrice > 30:
     deliveryFee = 0
+#waiving the delivery fee on orders that are more than $30
 
 if delivery == 1:
     tip = float(input("Please enter the tip amount: \n[1 - 10%]\n[2 - 15%]\n[3 - 20%]\n"))
@@ -186,6 +205,7 @@ if delivery == 1:
         tip = grandTotal * 0.15
     if tip == 3:
         tip = grandTotal * 0.2
+#if the customer chooses delivery, the program will ask for the tip amount and calculate the tip based on the order price
     
 if student == "y":
     if delivery == 2:
@@ -198,6 +218,7 @@ if student == "y":
         print(addressPrint())
         data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['10% Student Savings', '', '', '$' + str(studentDif)], ['', '', 'Sub Total', '$' + str(studentDis)], ['', '', 'Tip', '$' + str(tip)], ['', '', 'Tax (13%)', '$' + str(tax)], ['', '', 'Delivery', '$' + str(deliveryFee)], ['', '', 'Total', '$' + str(endPrice)]
         print(formatBill(data, headers, 25))
+#printing the final order reciept to the customer based on the inputs from earlier
     
 if student == "n":
     if delivery == 2:
@@ -210,3 +231,4 @@ if student == "n":
         print(addressPrint())
         data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['', '', 'Sub Total', '$' + str(grandTotal)], ['', '', 'Tip', '$' + str(tip)], ['', '', 'Tax (13%)', '$' + str(tax)], ['', '', 'Delivery', '$' + str(deliveryFee)], ['', '', 'Total', '$' + str(endPrice)]
         print(formatBill(data, headers, 25))
+#printing the final order reciept to the customer based on the inputs from earlier
