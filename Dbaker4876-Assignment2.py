@@ -98,49 +98,67 @@ def getDinnerOrder():                                                           
     
 answer = input("WELCOME TO ARNOLD'S AMAZING EATS!! ARE YOU HERE TO ORDER FOOD OR WHAT? [Y/N]: ").strip().lower()  #This is the first thing the user will see, and asks if they want to order some food
 
-if answer == "n":
-    exit() 
+while not(answer == "n" or answer == 'y'):
+    answer = input('Please enter a valid answer: ')
 
-firstName = input("Please enter your first name: ").capitalize().strip()
-customer.update({'firstname': firstName})
+if answer == 'n':
+    exit()
+    
+def customerInfo():
+    global specInstructions
+    firstName = input("Please enter your first name: ").capitalize().strip()
+    customer.update({'firstname': firstName})
 
-lastName = input("Please enter your last name: ").capitalize().strip()
-customer.update({'lastname': lastName})
+    lastName = input("Please enter your last name: ").capitalize().strip()
+    customer.update({'lastname': lastName})
 
-streetNumber = input("Please enter your street number: ").strip()                                   #Getting the user's information
-customer.update({'streetnumber': streetNumber})
+    streetNumber = input("Please enter your street number: ").strip()                                   #Getting the user's information
+    customer.update({'streetnumber': streetNumber})
 
-streetName = input("Please enter your street name: ").capitalize().strip()
-customer.update({'streetname': streetName})
+    streetName = input("Please enter your street name: ").capitalize().strip()
+    customer.update({'streetname': streetName})
 
-apartmentNum = input("Please enter your unit # if applicable: ").strip()
-customer.update({'unitnumber': apartmentNum})
+    apartmentNum = input("Please enter your unit # if applicable: ").strip()
+    customer.update({'unitnumber': apartmentNum})
 
-city = input("Please enter your city: ").strip().capitalize()
-customer.update({'city': city})
+    city = input("Please enter your city: ").strip().capitalize()
+    customer.update({'city': city})
 
-province = input("Please enter your province: ").capitalize().strip()
-customer.update({'province': province})
+    province = input("Please enter your province: ").capitalize().strip()
+    customer.update({'province': province})
 
-postalCode = input("Please enter your postal code: ").strip()
-customer.update({'postalcode': postalCode})
+    postalCode = input("Please enter your postal code: ").strip().upper()
+    customer.update({'postalcode': postalCode})
 
-phoneNum = input("Please enter your phone number: ")
-customer.update({'phonenumber': phoneNum})
+    phoneNum = input("Please enter your phone number: ")
+    customer.update({'phonenumber': phoneNum})
 
-specInstructions = input("Please enter any special instructions: ")
+    specInstructions = input("Please enter any special instructions: ") 
+    
+    confirm = input("Is this information correct? [Y/N]: ").strip().lower()
+    while not(confirm == 'y' or confirm == 'n'):
+        confirm = input("Please enter a valid answer: ")
+        
+    if confirm == 'y':
+        return False
+    if confirm == 'n':
+        return True
+
+while customerInfo():
+    if True:
+        print("Please reenter your information.")
 
 while getDinnerOrder():                                                                 #Calling the function to determine their order
     if True:
         print("Please reenter your order.")
         
 def addressPrint():
-    print(firstName + ' ' + lastName)
-    print(streetNumber + ' ' + streetName + ' ' + ' ' + apartmentNum)      
-    print(city + ', ' + province + ', ' + postalCode)        
-    print(specInstructions)
-    print("")      
-    
+    print('')
+    print(customer['firstname'] + ' ' + customer['lastname'])
+    print(customer['streetnumber'] + ' ' + customer['streetname'] + ' ' + ' ' + customer['unitnumber'])      
+    print(customer['city'] + ', ' + customer['province'] + ', ' + customer['postalcode'])
+    print(customer['phonenumber'])        
+    print(specInstructions)     
       
 studentDiscount = round(grandTotal * 0.1, 2) 
 studentDif = round(grandTotal - (grandTotal + studentDiscount), 3)                      #Calculating the discounts if they say 'yes' to be a student
@@ -160,16 +178,28 @@ while not(delivery == 1 or delivery == 2):
 deliveryFee = 5
 if totalPrice > 30:
     deliveryFee = 0
+
+if delivery == 1:
+    tip = float(input("Please enter the tip amount: \n[1 - 10%]\n[2 - 15%]\n[3 - 20%]\n"))
+    while not(tip == 1 or tip == 2 or tip == 3):
+        tip = float(input("Please enter a valid value: "))
+    if tip == 1:
+        tip = grandTotal * 0.1
+    if tip == 2:
+        tip = grandTotal * 0.15
+    if tip == 3:
+        tip = grandTotal * 0.2
     
 if student == "y":
     if delivery == 2:
         endPrice = round(tax + studentDis, 3)
-        addressPrint()
+        print(addressPrint())
         data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['10% Student Savings', '', '', '$' + str(studentDif)], ['', '', 'Sub Total', '$' + str(studentDis)], ['', '', 'Tax (13%)', '$' + str(tax)], ['', '', 'Total', '$' + str(endPrice)]
         print(formatBill(data, headers, 30))
     if delivery == 1:
-        endPrice = round(tax + studentDis + deliveryFee, 3)
-        data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['10% Student Savings', '', '', '$' + str(studentDif)], ['', '', 'Sub Total', '$' + str(studentDis)], ['', '', 'Tax (13%)', '$' + str(tax)], ['', '', 'Delivery', '$' + str(deliveryFee)], ['', '', 'Total', '$' + str(endPrice)]
+        endPrice = round(tax + studentDis + deliveryFee + tip, 3)
+        print(addressPrint())
+        data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['10% Student Savings', '', '', '$' + str(studentDif)], ['', '', 'Sub Total', '$' + str(studentDis)], ['', '', 'Tip', '$' + str(tip)], ['', '', 'Tax (13%)', '$' + str(tax)], ['', '', 'Delivery', '$' + str(deliveryFee)], ['', '', 'Total', '$' + str(endPrice)]
         print(formatBill(data, headers, 25))
     
 if student == "n":
@@ -179,7 +209,7 @@ if student == "n":
         data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['', '', 'Sub Total', '$' + str(grandTotal)], ['', '', 'Tax (13%)', '$' + str(tax)], ['', '', 'Total', '$' + str(endPrice)]
         print(formatBill(data, headers, 25))
     if delivery == 1:
-        endPrice = round(tax + grandTotal + deliveryFee, 3)
+        endPrice = round(tax + grandTotal + deliveryFee + tip, 3)
         print(addressPrint())
-        data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['', '', 'Sub Total', '$' + str(grandTotal)], ['', '', 'Tax (13%)', '$' + str(tax)], ['', '', 'Delivery', '$' + str(deliveryFee)], ['', '', 'Total', '$' + str(endPrice)]
+        data = [chosenMenu['a'], str(chosenMenu['Quantity']), '$' + str(chosenMenu['b']), '$' + str(grandTotal)], ['', '', 'Sub Total', '$' + str(grandTotal)], ['', '', 'Tip', '$' + str(tip)], ['', '', 'Tax (13%)', '$' + str(tax)], ['', '', 'Delivery', '$' + str(deliveryFee)], ['', '', 'Total', '$' + str(endPrice)]
         print(formatBill(data, headers, 25))
